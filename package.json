@@ -1,0 +1,29 @@
+{
+  "name": "clinicadmin-back",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EstebanCortina/clinicadmin-back.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EstebanCortina/clinicadmin-back/issues"
+  },
+  "homepage": "https://github.com/EstebanCortina/clinicadmin-back#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.14.1"
+  }
+}
