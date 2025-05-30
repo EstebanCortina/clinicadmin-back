@@ -1,11 +1,16 @@
 import express from "express";
 import successRes from "../../helpers/successRes.js";
+import {getDb} from "../../helpers/getDb.js"
 
 const mainV1Router = express.Router()
 
-mainV1Router.get("/health", (req, res)=>{
+mainV1Router.get("/health", async (req, res)=>{
+
+    const db = getDb();
+    const result = await db.exec("SELECT * FROM health")
+
     return successRes(
-        res
+        res, 200, "Health", result
     );
 })
 
