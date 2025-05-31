@@ -1,5 +1,5 @@
 import express from "express";
-import successRes from "../../helpers/successRes.js";
+import successRes from "../../helpers/response.js";
 import {getDb} from "../../helpers/getDb.js"
 
 const mainV1Router = express.Router()
@@ -13,5 +13,8 @@ mainV1Router.get("/health", async (req, res)=>{
         res, 200, "Health", result
     );
 })
+
+import authRouter from "./auth.js"
+mainV1Router.use("/auth", authRouter)
 
 export default mainV1Router
