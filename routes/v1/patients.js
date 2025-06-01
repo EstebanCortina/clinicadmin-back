@@ -2,8 +2,8 @@ import express from "express";
 import { body } from "express-validator";
 
 import validateHandler from "../../handlers/validation_handler.js"
-import { createPatient } from "../../services/patients_service.js";
-import {response, getDb} from "../../helpers/index.js"
+import { createPatient, indexPatients } from "../../services/patients_service.js";
+import {response, getDb, pagination} from "../../helpers/index.js"
 
 const patientsRouter = express.Router()
 
@@ -65,8 +65,18 @@ patientsRouter.post("/",
 
 })
 
-patientsRouter.get("/", (req, res)=>{
+patientsRouter.get("/", async (req, res)=>{
+    const db = getDb()
 
+    return response(
+        res,
+        200,
+        "Index Patients",
+        await indexPatients(
+            pagination(req.query),
+            db
+        )
+    )
 })
 
 patientsRouter.get("/:id", (req, res)=>{

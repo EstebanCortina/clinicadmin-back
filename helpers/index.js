@@ -14,3 +14,9 @@ export const response = (
     message: message,
     data: data,
 });
+
+export const pagination = (queryParams) => {
+    const page = parseInt(queryParams.page?? 1, 10)
+    const limit = parseInt(queryParams.per_page?? 20, 10);
+    return {page: ((page - 1) * limit), perPage: limit}
+}

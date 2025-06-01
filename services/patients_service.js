@@ -21,3 +21,18 @@ export const createPatient = async (patientsData, db) => {
             sex, comments
     `, patientsData))[0]?? null;
 }
+
+export const indexPatients = async ({page, perPage}, db) => {
+    console.log(page, perPage)
+    return await db.exec(`
+        SELECT 
+            name, last_name,
+            age, national_id_number,
+            phone, address,
+            email, blood_group,
+            sex, comments
+        FROM "patient"
+        OFFSET ${page}
+        LIMIT ${perPage}
+    `)
+}
