@@ -31,9 +31,9 @@ export const indexPatients = async ({page, perPage}, db) => {
             email, blood_group,
             sex, comments
         FROM "patient"
-        OFFSET ${page}
-        LIMIT ${perPage}
-    `)
+        OFFSET $1
+        LIMIT $2
+    `,[page, perPage])
 }
 
 export const retrievePatientById = async (id, db) => {
