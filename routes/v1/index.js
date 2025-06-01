@@ -17,4 +17,7 @@ mainV1Router.get("/health", async (req, res)=>{
 import authRouter from "./auth.js"
 mainV1Router.use("/auth", authRouter)
 
+import patientsRouter from "./patients.js"
+mainV1Router.use("/patients", patientsRouter)
+
 export default mainV1Router
