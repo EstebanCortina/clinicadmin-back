@@ -2,7 +2,7 @@ import express from "express";
 import { body } from "express-validator";
 
 import validateHandler from "../../handlers/validation_handler.js"
-import { createPatient, indexPatients, retrievePatientById } from "../../services/patients_service.js";
+import { createPatient, indexPatients, retrievePatientById, updatePatient } from "../../services/patients_service.js";
 import {response, getDb, pagination} from "../../helpers/index.js"
 
 const patientsRouter = express.Router()
@@ -93,7 +93,63 @@ patientsRouter.get("/:id", async (req, res)=>{
     )
 })
 
-patientsRouter.put("/:id", (req, res)=>{
+patientsRouter.put("/:id",
+    [
+        body('**').optional().trim().blacklist('<>&\'"/').escape(),
+        body('name').optional().isString().withMessage("Name must be a string")
+        .customSanitizer(value => value ?? null),
+        body('last_name').optional().isString().withMessage("Last name must be a string")
+        .customSanitizer(value => value ?? null),
+        body('age').optional().isInt().withMessage("Age must be a number")
+        .customSanitizer(value => value ?? null),
+        body('national_id_number').optional().isString().withMessage("National ID number must be a string")
+        .customSanitizer(value => value ?? null),
+        body('phone').optional().isString().withMessage("Phone must be a string")
+        .customSanitizer(value => value ?? null),
+        body('address').optional().isString().withMessage("Address must be a string")
+        .customSanitizer(value => value ?? null),
+        body('email').optional().isEmail().withMessage("Must be a valid email").customSanitizer(value => value ?? null),
+        body('blood_group').optional().isString().withMessage("National ID number must be a string")
+        .isLength({min: 2, max: 3}).withMessage("Invalid blood group format").customSanitizer(value => value ?? null),
+        body('sex').optional().isString().withMessage("Sex must be a string")
+        .isLength({min: 1, max: 1}).withMessage("Invalid sex format").customSanitizer(value => value ?? null),
+        body('comments').optional().isString().withMessage("Comments must be a string").customSanitizer(value => value ?? null)
+    ], validateHandler,
+    async (req, res)=>{
+        const db = getDb();
+        let patientDb = null;
+        try {
+            patientDb = await updatePatient(
+                [
+                    req.body.name,
+                    req.body.last_name,
+                    req.body.age,
+                    req.body.national_id_number,
+                    req.body.phone,
+                    req.body.address,
+                    req.body.email,
+                    req.body.blood_group,
+                    req.body.sex,
+                    req.body.comments,
+                    new Date().toISOString(),
+                    req.params.id
+                ], db
+            )
+        return response(
+                res,
+                200,
+                "New patient updated",
+                patientDb
+            )
+        } catch (error) {
+            console.error(error);
+            return response(
+                res,
+                500,
+                "Server Error",
+                null
+            )
+        }
 
 })
 
