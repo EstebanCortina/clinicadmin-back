@@ -2,7 +2,12 @@ import express from "express";
 import { body } from "express-validator";
 
 import validateHandler from "../../handlers/validation_handler.js"
-import { createAppointment, retrieveApptStatusIdByName, retrieveApptTypeById } from "../../services/appointments_service.js";
+import { 
+    createAppointment,
+    retrieveApptStatusIdByName,
+    retrieveApptTypeById,
+    indexAppointments
+} from "../../services/appointments_service.js";
 import { retrievePatientById, isPatientScheduleAvailable } from "../../services/patients_service.js";
 import {response, getDb, pagination} from "../../helpers/index.js"
 
@@ -60,6 +65,20 @@ appointmentsRouter.post("/",
             )
         }
 
+})
+
+appointmentsRouter.get("/", async (req, res)=>{
+    const db = getDb()
+
+    return response(
+        res,
+        200,
+        "Index Patients",
+        await indexAppointments(
+            pagination(req.query),
+            db
+        )
+    )
 })
 
 export default appointmentsRouter
