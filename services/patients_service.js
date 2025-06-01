@@ -74,3 +74,14 @@ export const updatePatient = async (patientsData, db) => {
             sex, comments
     `, patientsData))[0]?? null;
 }
+
+export const isPatientScheduleAvailable = async (patientId, scheduleDate, db) => {
+    return (await db.exec(`
+        SELECT
+            1
+        FROM "appointment"
+        WHERE
+            patient_id = $1 AND
+            schedule_date::date = $2::date
+    `, [patientId, scheduleDate])).length ? false : true;
+}
