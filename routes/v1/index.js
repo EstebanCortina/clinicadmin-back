@@ -20,4 +20,7 @@ mainV1Router.use("/auth", authRouter)
 import patientsRouter from "./patients.js"
 mainV1Router.use("/patients", patientsRouter)
 
+import appointmentsRouter from "./appointments.js"
+mainV1Router.use("/appointments", appointmentsRouter)
+
 export default mainV1Router
