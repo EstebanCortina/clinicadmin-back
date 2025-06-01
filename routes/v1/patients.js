@@ -2,7 +2,7 @@ import express from "express";
 import { body } from "express-validator";
 
 import validateHandler from "../../handlers/validation_handler.js"
-import { createPatient, indexPatients } from "../../services/patients_service.js";
+import { createPatient, indexPatients, retrievePatientById } from "../../services/patients_service.js";
 import {response, getDb, pagination} from "../../helpers/index.js"
 
 const patientsRouter = express.Router()
@@ -79,8 +79,18 @@ patientsRouter.get("/", async (req, res)=>{
     )
 })
 
-patientsRouter.get("/:id", (req, res)=>{
+patientsRouter.get("/:id", async (req, res)=>{
+    const db = getDb()
 
+    return response(
+        res,
+        200,
+        "Show Patient",
+        await retrievePatientById(
+            req.params.id,
+            db
+        )
+    )
 })
 
 patientsRouter.put("/:id", (req, res)=>{

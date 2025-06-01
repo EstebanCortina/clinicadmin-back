@@ -23,7 +23,6 @@ export const createPatient = async (patientsData, db) => {
 }
 
 export const indexPatients = async ({page, perPage}, db) => {
-    console.log(page, perPage)
     return await db.exec(`
         SELECT 
             name, last_name,
@@ -35,4 +34,18 @@ export const indexPatients = async ({page, perPage}, db) => {
         OFFSET ${page}
         LIMIT ${perPage}
     `)
+}
+
+export const retrievePatientById = async (id, db) => {
+    return await db.exec(`
+        SELECT 
+            name, last_name,
+            age, national_id_number,
+            phone, address,
+            email, blood_group,
+            sex, comments
+        FROM "patient"
+        WHERE
+            id = $1
+    `,[id])
 }
