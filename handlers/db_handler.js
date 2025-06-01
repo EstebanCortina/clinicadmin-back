@@ -5,7 +5,7 @@ export default class db {
         this._dbClient = dbClient;
     }
 
-    async exec(queryString, params) {
+    async exec(queryString, params=[]) {
         let res = null;
         try {
             res = await this._dbClient.query(queryString, params);
