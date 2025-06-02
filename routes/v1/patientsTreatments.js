@@ -3,7 +3,7 @@ import { body } from "express-validator";
 
 import validateHandler from "../../handlers/validation_handler.js"
 import { retrieveTreatmentById, assignPatientTreatment } from "../../services/treatments_service.js";
-import { retrievePatientById } from "../../services/patients_service.js";
+import { fetchPatientTreatments, retrievePatientById } from "../../services/patients_service.js";
 import {response, getDb, pagination} from "../../helpers/index.js"
 
 const patientsTreatmentsRouter = express.Router({ mergeParams: true })
@@ -55,6 +55,21 @@ patientsTreatmentsRouter.post("/",
             )
         }
 
+})
+
+patientsTreatmentsRouter.get("/", async (req, res)=>{
+    const db = getDb()
+
+    return response(
+            res,
+            200,
+            "Show Patient's treatments",
+            await fetchPatientTreatments(
+                req.params.id,
+                req.query,
+                db
+            )
+        )
 })
 
 export default patientsTreatmentsRouter
