@@ -27,3 +27,12 @@ export const assignPatientTreatment = async (assignData, db) => {
     `, assignData)
 
 }
+
+export const indexTreatments = async (db) => {
+    return await db.exec(`
+        SELECT 
+            id, name, description
+        FROM "treatment_type"
+        ORDER BY name
+    `);
+}
