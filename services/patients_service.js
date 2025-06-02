@@ -85,3 +85,24 @@ export const isPatientScheduleAvailable = async (patientId, scheduleDate, db) =>
             schedule_date::date = $2::date
     `, [patientId, scheduleDate])).length ? false : true;
 }
+
+export const fetchPatientTreatments = async (patientId, {page, perPage}, db) => {
+    return await db.exec(`
+        SELECT
+            ttp.patient_id,
+            ttp.treatment_type_id,
+            tt.name as treatment_type_name,
+            ttp.from_date,
+            ttp.to_date,
+            ttp.comments
+        FROM "treatment_type_patient" ttp
+        JOIN "patient" p ON
+        (ttp.patient_id=p.id)
+        JOIN "treatment_type" tt ON
+        (ttp.treatment_type_id=tt.id)
+        WHERE
+            ttp.patient_id = $1
+        LIMIT $2
+        OFFSET $3
+    `, [patientId, perPage, page])
+}

@@ -23,4 +23,7 @@ mainV1Router.use("/patients", patientsRouter)
 import appointmentsRouter from "./appointments.js"
 mainV1Router.use("/appointments", appointmentsRouter)
 
+import treatmentsRouter from "./treatments.js";
+mainV1Router.use("/treatments", treatmentsRouter)
+
 export default mainV1Router

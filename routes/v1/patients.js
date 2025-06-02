@@ -154,5 +154,7 @@ patientsRouter.put("/:id",
 })
 
 
+import patientsTreatmentsRouter from "./patientsTreatments.js";
+patientsRouter.use("/:id/treatments", patientsTreatmentsRouter)
 
 export default patientsRouter
