@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import morgan from "morgan";
+import cors from 'cors';
 
 dotenv.config();
 
@@ -9,6 +10,13 @@ const app = express()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan(process.env.NODE_ENV === "prod" ? "combined" : "dev"));
+
+const corsOptions = {
+  origin: process.env.FRONTED_URL || "http://localhost:8080",
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 
 import v1Router from "./routes/v1/index.js";
 app.use("/v1", v1Router);
