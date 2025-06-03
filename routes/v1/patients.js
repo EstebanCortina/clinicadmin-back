@@ -67,13 +67,13 @@ patientsRouter.post("/",
 
 patientsRouter.get("/", async (req, res)=>{
     const db = getDb()
-
     return response(
         res,
         200,
         "Index Patients",
         await indexPatients(
             pagination(req.query),
+            req.query.search? `%${req.query.search}%` : null,
             db
         )
     )
