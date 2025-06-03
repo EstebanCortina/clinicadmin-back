@@ -28,4 +28,10 @@ mainV1Router.use("/appointments", authenticate, appointmentsRouter)
 import treatmentsRouter from "./treatments.js";
 mainV1Router.use("/treatments", authenticate, treatmentsRouter)
 
+import appointmentTypesRouter from "./appointment_types.js";
+mainV1Router.use("/appointment-types", authenticate, appointmentTypesRouter)
+
+import appointmentStatusesRouter from "./appointment_statuses_types.js";
+mainV1Router.use("/appointment-statuses", authenticate, appointmentStatusesRouter)
+
 export default mainV1Router
