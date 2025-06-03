@@ -94,6 +94,7 @@ export const isPatientScheduleAvailable = async (patientId, scheduleDate, db) =>
 export const fetchPatientTreatments = async (patientId, {page, perPage}, db) => {
     return await db.exec(`
         SELECT
+            ttp.id,
             ttp.patient_id,
             ttp.treatment_type_id,
             tt.name as treatment_type_name,
@@ -106,7 +107,8 @@ export const fetchPatientTreatments = async (patientId, {page, perPage}, db) => 
         JOIN "treatment_type" tt ON
         (ttp.treatment_type_id=tt.id)
         WHERE
-            ttp.patient_id = $1
+            ttp.patient_id = $1 AND
+            ttp.deleted_at IS NULL
         LIMIT $2
         OFFSET $3
     `, [patientId, perPage, page])
