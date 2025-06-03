@@ -75,7 +75,7 @@ appointmentsRouter.get("/", async (req, res)=>{
             pagination(req.query),
             db
         )
-    const totalAppointments = await countAppointments(db);
+    const totalAppointments = parseInt(await countAppointments(db));
     return response(
         res,
         200,

@@ -109,7 +109,19 @@ export const fetchPatientTreatments = async (patientId, {page, perPage}, db) => 
         WHERE
             ttp.patient_id = $1 AND
             ttp.deleted_at IS NULL
+        ORDER BY ttp.created_at ASC
         LIMIT $2
         OFFSET $3
     `, [patientId, perPage, page])
+}
+
+export const totalPatientTreatments = async (patientId, db) => {
+    return (await db.exec(`
+        SELECT
+            COUNT(*) as total
+        FROM "treatment_type_patient" ttp
+        WHERE
+            ttp.patient_id = $1 AND
+            ttp.deleted_at IS NULL
+    `, [patientId]))[0].total;
 }
