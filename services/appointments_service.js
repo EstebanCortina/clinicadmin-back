@@ -57,6 +57,13 @@ export const indexAppointments = async ({page, perPage}, db) => {
     `,[page, perPage])
 }
 
+export const countAppointments = async (db) => {
+    return (await db.exec(`
+        SELECT COUNT(*) as total
+        FROM "appointment"
+    `))[0].total;
+}
+
 export const retrieveAppointmentById = async (apptId, db) => {
     return (await db.exec(`
         SELECT 

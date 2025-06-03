@@ -7,7 +7,8 @@ import {
     retrieveApptStatusIdByName,
     retrieveApptTypeById,
     indexAppointments,
-    retrieveAppointmentById
+    retrieveAppointmentById,
+    countAppointments
 } from "../../services/appointments_service.js";
 import { retrievePatientById, isPatientScheduleAvailable } from "../../services/patients_service.js";
 import {response, getDb, pagination} from "../../helpers/index.js"
@@ -70,15 +71,16 @@ appointmentsRouter.post("/",
 
 appointmentsRouter.get("/", async (req, res)=>{
     const db = getDb()
-
+    const appointments = await indexAppointments(
+            pagination(req.query),
+            db
+        )
+    const totalAppointments = await countAppointments(db);
     return response(
         res,
         200,
         "Index Patients",
-        await indexAppointments(
-            pagination(req.query),
-            db
-        )
+        {appointments: appointments, total: totalAppointments}
     )
 })
 

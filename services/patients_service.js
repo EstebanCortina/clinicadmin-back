@@ -24,13 +24,14 @@ export const createPatient = async (patientsData, db) => {
 
 export const indexPatients = async ({page, perPage}, db) => {
     return await db.exec(`
-        SELECT 
-            name, last_name,
+        SELECT
+            id, name, last_name,
             age, national_id_number,
             phone, address,
             email, blood_group,
             sex, comments
         FROM "patient"
+        ORDER BY created_at ASC
         OFFSET $1
         LIMIT $2
     `,[page, perPage])
