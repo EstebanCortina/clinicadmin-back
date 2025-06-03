@@ -12,8 +12,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan(process.env.NODE_ENV === "prod" ? "combined" : "dev"));
 
 const corsOptions = {
-  origin: process.env.FRONTED_URL || "http://localhost:8080",
-  optionsSuccessStatus: 200
+  origin: process.env.FRONTEND_URL || "http://localhost:8000",
+  optionsSuccessStatus: 200,
+  credentials: true
 };
 
 app.use(cors(corsOptions));
