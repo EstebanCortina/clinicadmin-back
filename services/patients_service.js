@@ -22,7 +22,10 @@ export const createPatient = async (patientsData, db) => {
     `, patientsData))[0]?? null;
 }
 
-export const indexPatients = async ({page, perPage}, db) => {
+export const indexPatients = async ({page, perPage}, search, db) => {
+    console.log("Indexing patients with search:", search);
+    const statementParams = [page, perPage]
+    if (search) statementParams.push(search)
     return await db.exec(`
         SELECT
             id, name, last_name,
@@ -31,10 +34,11 @@ export const indexPatients = async ({page, perPage}, db) => {
             email, blood_group,
             sex, comments
         FROM "patient"
+        ${search? 'WHERE name ILIKE $3 OR last_name ILIKE $3' : ''}
         ORDER BY created_at ASC
         OFFSET $1
         LIMIT $2
-    `,[page, perPage])
+    `,statementParams)
 }
 
 export const retrievePatientById = async (id, db) => {
