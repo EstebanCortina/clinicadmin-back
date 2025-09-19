@@ -8,11 +8,11 @@ const mainV1Router = express.Router()
 
 mainV1Router.get("/health", async (req, res)=>{
 
-    const db = getDb();
-    const result = await db.exec("SELECT * FROM health")
+    // const db = getDb();
+    // const result = await db.exec("SELECT * FROM health")
 
     return successRes(
-        res, 200, "Health", result
+        res, 200, "Health", null
     );
 })
 
